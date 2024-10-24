@@ -69,14 +69,17 @@ return [
      *
      * Example of non-default config (final URLs are generated using Laravel `url` helper):
      *
-     * ```php
-     * 'servers' => [
-     *     'Live' => 'api',
-     *     'Prod' => 'https://scramble.dedoc.co/api',
-     * ],
+
+      'servers' => [
+          'Live' => 'api',
+         'Prod' => 'https://scramble.dedoc.co/api',
+      ],
      * ```
      */
-    'servers' => null,
+    'servers' => [
+        'Live' => 'api',
+        'Prod' => 'https://task.devdata.uz/api',
+    ],
 
     'middleware' => [
         'web',
