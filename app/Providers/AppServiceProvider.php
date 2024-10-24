@@ -34,11 +34,12 @@ class AppServiceProvider extends ServiceProvider
 
         Passport::enablePasswordGrant();
 
-        Scramble::routes(function (Route $route) {
-            return Str::startsWith($route->uri, 'api/');
-        });
         Gate::define('viewApiDocs', function (User $user) {
             return in_array($user->email, ['admin@admin.uz']);
+        });
+
+        Scramble::routes(function (Route $route) {
+            return Str::startsWith($route->uri, 'api/');
         });
     }
 }
