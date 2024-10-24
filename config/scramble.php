@@ -76,10 +76,7 @@ return [
       ],
      * ```
      */
-    'servers' => [
-        'Live' => 'api',
-        'Prod' => 'https://task.devdata.uz/api',
-    ],
+    'servers' => null,
 
     'middleware' => [
         'web',
