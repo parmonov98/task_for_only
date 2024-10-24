@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
         Passport::enablePasswordGrant();
 
         Gate::define('viewApiDocs', function (User $user) {
-            return in_array($user->email, ['admin@admin.uz']);
+            return true;
         });
 
         Scramble::routes(function (Route $route) {
