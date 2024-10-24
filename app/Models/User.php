@@ -21,6 +21,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'employee_id',
         'name',
         'email',
         'password',
@@ -49,6 +50,10 @@ class User extends Authenticatable
         ];
     }
 
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->email === 'admin@domain.uz';

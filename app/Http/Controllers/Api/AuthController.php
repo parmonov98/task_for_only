@@ -87,7 +87,7 @@ class AuthController extends Controller
     }
 
     /**
-     * refresh token
+     * Refresh token
      *
      * @return void
      */
@@ -116,6 +116,6 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'Logged out successfully',
-        ], 204);
+        ]);
     }
 }

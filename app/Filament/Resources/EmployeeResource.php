@@ -46,6 +46,9 @@ class EmployeeResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('last_name')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('user')
+                    ->label('User')
+                    ->formatStateUsing(fn ($record) => $record->user->name),
                 Tables\Columns\TextColumn::make('employee_position')
                     ->label('Position')
                     ->formatStateUsing(fn ($record) => $record->employee_position->name),

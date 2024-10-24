@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CarBookingResource\Pages;
-use App\Filament\Resources\CarBookingResource\RelationManagers;
-use App\Models\CarBooking;
+use App\Filament\Resources\UserResource\Pages;
+use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\Driver;
 use App\Models\Employee;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,9 +15,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class CarBookingResource extends Resource
+class UserResource extends Resource
 {
-    protected static ?string $model = CarBooking::class;
+    protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -25,20 +25,24 @@ class CarBookingResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\DateTimePicker::make('start_time')
-                    ->required(),
-                Forms\Components\DateTimePicker::make('end_time')
-                    ->required(),
+                Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('email')
+                    ->email()
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\Select::make('employee_id')
                     ->label('Employee')
                     ->required()
                     ->relationship('employee')
                     ->getOptionLabelFromRecordUsing(fn (Employee $record) => "{$record->first_name} {$record->last_name}")
                 ,
-                Forms\Components\Select::make('car_id')
-                    ->label('Car')
+                Forms\Components\TextInput::make('password')
+                    ->password()
                     ->required()
-                    ->relationship('car', 'model'),
+                    ->maxLength(255),
             ]);
     }
 
@@ -46,16 +50,14 @@ class CarBookingResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('car')
-                    ->label('Car')
-                    ->formatStateUsing(fn ($record) => $record->car->model),
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('email')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('employee')
                     ->label('Employee')
-                    ->formatStateUsing(fn ($record) => $record->employee->first_name . ' ' . $record->employee->last_name),
-                Tables\Columns\TextColumn::make('start_time')
-                    ->dateTime()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('end_time')
+                    ->formatStateUsing(fn ($record) => $record->employee->first_name . " " . $record->employee->last_name),
+                Tables\Columns\TextColumn::make('email_verified_at')
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -72,7 +74,6 @@ class CarBookingResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -81,10 +82,19 @@ class CarBookingResource extends Resource
             ]);
     }
 
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
+
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageCarBookings::route('/'),
+            'index' => Pages\ListUsers::route('/'),
+            'create' => Pages\CreateUser::route('/create'),
+            'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
 }

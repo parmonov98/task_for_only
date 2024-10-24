@@ -22,6 +22,12 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@domain.uz',
             'password' => '12345678',
         ]);
+        User::factory()->create([
+            'name' => 'user',
+            'email' => 'user@domain.uz',
+            'password' => '12345678',
+
+        ]);
         ComfortCategory::factory()->create([
             'name' => 'Executive',
         ]);

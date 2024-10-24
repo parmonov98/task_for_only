@@ -17,10 +17,16 @@ class EmployeeFactory extends Factory
      */
     public function definition(): array
     {
+        $positions = EmployeePosition::all();
+        if ($positions->count() === 0){
+            $position = EmployeePositionFactory::new();
+        }else{
+            $position = $positions->random()->id;
+        }
         return [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
-            'employee_position_id' => EmployeePosition::all()->random()->id,
+            'employee_position_id' => $position,
         ];
     }
 }
